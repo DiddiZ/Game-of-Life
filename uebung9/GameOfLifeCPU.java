@@ -42,7 +42,15 @@ public class GameOfLifeCPU extends GameOfLife {
 
 	@Override
 	public void iterate() {
-		// TODO a)
+		for (int x = 0; x < WIDTH; x++)
+			for (int y = 0; y < HEIGHT; y++) {
+				final int activeNeighbors = getNumberOfActiveNeighbors(y, x);
+				// Cell is only active in next frame it it has three neighbors, or has two neighbors and is active
+				setActive(y, x, activeNeighbors == 3 || activeNeighbors == 2 && isActive(y, x));
+			}
+
+		// Swap read and write buffers
+		swapCurrentAndTemp();
 	}
 
 }
