@@ -143,11 +143,12 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 					idx = y * WIDTH + x;
 					if (open[idx] == tick) { // Cell changed in last step
 						final int activeNeighbors = getNumberOfActiveNeighbors(y, x);
-						final boolean wasActive = current[idx] != 0;
+						final byte wasActive = current[idx];
 
 						// A Cell is active if it has three neighbors, or has two neighbors and is already active
-						final boolean isActive = activeNeighbors == 3 || wasActive && activeNeighbors == 2;
-						temp[idx] = isActive ? (byte)1 : 0;
+						// Bit-Magic 3 | 1 == 2 | 1 == 3
+						final byte isActive = (activeNeighbors | wasActive) == 3 ? (byte)1 : 0;
+						temp[idx] = isActive;
 
 						if (isActive != wasActive)
 							addToOpen(y, x);
@@ -178,11 +179,11 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 				for (int idx = y * WIDTH + minX; idx < maxIdx; idx++)
 					if (open[idx] == tick) { // Cell changed in last step
 						final int activeNeighbors = getNumberOfActiveNeighborsNoEdge(idx);
-						final boolean wasActive = current[idx] != 0;
+						final byte wasActive = current[idx];
 
 						// A Cell is active if it has three neighbors, or has two neighbors and is already active
-						final boolean isActive = activeNeighbors == 3 || wasActive && activeNeighbors == 2;
-						temp[idx] = isActive ? (byte)1 : 0;
+						final byte isActive = (activeNeighbors | wasActive) == 3 ? (byte)1 : 0;
+						temp[idx] = isActive;
 
 						if (isActive != wasActive)
 							addToOpenNoEdge(idx);
