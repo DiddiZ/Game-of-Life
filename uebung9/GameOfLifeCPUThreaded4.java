@@ -14,7 +14,7 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 	 */
 	private byte tick;
 
-	private static final int CHUNKS_X = 16, CHUNKS_Y = 16;
+	private static final int CHUNKS_X = 1, CHUNKS_Y = 15 * 16;
 	private static final int CHUNK_WIDTH = WIDTH / CHUNKS_X, CHUNK_HEIGHT = HEIGHT / CHUNKS_Y;
 
 	public GameOfLifeCPUThreaded4() {
