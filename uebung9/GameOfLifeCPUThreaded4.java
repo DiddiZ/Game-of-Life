@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 {
 	private byte[] open, tempOpen;
+	private final Runnable[] workers = new Runnable[CHUNKS_X * CHUNKS_Y + 1];
 
 	/**
 	 * Tick counter to keep track of currently open cells. Overflows, it's cared for.
@@ -21,6 +22,18 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 		temp = createArray();
 		open = createArray();
 		tempOpen = createArray();
+
+		// Pre-create workers
+		int idx = 0;
+		workers[idx++] = new EdgeWorker();
+		for (int x = 0; x < CHUNKS_X; x++)
+			for (int y = 0; y < CHUNKS_Y; y++) {
+				final int minX = x == 0 ? 1 : x * CHUNK_WIDTH;
+				final int maxX = x == CHUNKS_X - 1 ? WIDTH - 1 : (x + 1) * CHUNK_WIDTH;
+				final int minY = y == 0 ? 1 : y * CHUNK_HEIGHT;
+				final int maxY = y == CHUNKS_Y - 1 ? HEIGHT - 1 : (y + 1) * CHUNK_HEIGHT;
+				workers[idx++] = new NoEdgeWorker(minX, maxX, minY, maxY);
+			}
 	}
 
 	@Override
@@ -28,15 +41,9 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 		try {
 			// Spawn a lot of threads
 			final ExecutorService executor = Executors.newWorkStealingPool();
-			executor.submit(new EdgeWorker());
-			for (int x = 0; x < CHUNKS_X; x++)
-				for (int y = 0; y < CHUNKS_Y; y++) {
-					final int minX = x == 0 ? 1 : x * CHUNK_WIDTH;
-					final int maxX = x == CHUNKS_X - 1 ? WIDTH - 1 : (x + 1) * CHUNK_WIDTH;
-					final int minY = y == 0 ? 1 : y * CHUNK_HEIGHT;
-					final int maxY = y == CHUNKS_Y - 1 ? HEIGHT - 1 : (y + 1) * CHUNK_HEIGHT;
-					executor.submit(new NoEdgeWorker(minX, maxX, minY, maxY));
-				}
+			for (int i = 0; i < workers.length; i++)
+				executor.submit(workers[i]);
+
 			// Wait for spawned threads to finish
 			executor.shutdown();
 			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
