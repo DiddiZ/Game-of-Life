@@ -1,4 +1,5 @@
 package de.diddiz.gol;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +22,6 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 	private static final int CHUNK_WIDTH = WIDTH / CHUNKS_X, CHUNK_HEIGHT = HEIGHT / CHUNKS_Y;
 
 	public GameOfLifeCPUThreaded4() {
-		temp = createArray();
 		open = createArray();
 		tempOpen = createArray();
 
@@ -91,11 +91,7 @@ public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU
 
 	@Override
 	protected void swapCurrentAndTemp() {
-		final byte[] newCurrent = temp;
-
-		// re-use for next iteration
-		temp = current;
-		current = newCurrent;
+		super.swapCurrentAndTemp();
 
 		swapOpen();
 	}
