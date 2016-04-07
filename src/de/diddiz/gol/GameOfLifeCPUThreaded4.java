@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import uebung9.GameOfLifeCPU;
 
 /**
+ * Further improved version. Uses an open list and an optimized second worker for chunks without edges.
+ *
  * @author Robin Kupper
  */
 public class GameOfLifeCPUThreaded4 extends GameOfLifeCPU

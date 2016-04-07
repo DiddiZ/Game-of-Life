@@ -1,10 +1,14 @@
 package de.diddiz.gol;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import uebung9.GameOfLifeCPU;
 
 /**
+ * This is the version used in the competition.<p>
+ * Uses an open list of all cells that changed in last iteration to reduce full cell checks.
+ *
  * @author Robin Kupper
  */
 public class GameOfLifeCPUThreaded3 extends GameOfLifeCPU

@@ -1,9 +1,13 @@
 package de.diddiz.gol;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import uebung9.GameOfLife;
+
 /**
+ * Basic multithreaded implementation.
+ *
  * @author Robin Kupper
  */
 public class GameOfLifeCPUThreaded extends GameOfLife
@@ -33,7 +37,6 @@ public class GameOfLifeCPUThreaded extends GameOfLife
 
 			swapCurrentAndTemp();
 		} catch (final InterruptedException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 			System.exit(1);
 		}
