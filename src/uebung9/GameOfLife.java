@@ -1,3 +1,4 @@
+package uebung9;
 import java.util.Arrays;
 
 public abstract class GameOfLife {

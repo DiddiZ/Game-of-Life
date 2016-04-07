@@ -1,3 +1,4 @@
+package uebung9;
 public class RandomInput implements Input {
 
 	public static final double RATIO = 0.3125;

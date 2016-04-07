@@ -1,7 +1,11 @@
+package de.diddiz.gol;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
+import uebung9.GameOfLife;
+/**
+ * @author Robin Kupper
+ */
 public class GameOfLifeCPUThreaded2 extends GameOfLife
 {
 	protected byte[] temp;

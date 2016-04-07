@@ -1,3 +1,4 @@
+package uebung9;
 public class GameOfLifeCPU extends GameOfLife {
 
 	protected byte[] temp;
